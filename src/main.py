@@ -1,12 +1,12 @@
 import pygame
 import sys
+from score import *
 from settings import *
 from snake import Snake
 from food import Food
 
 pygame.init()
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Snake Game")
 clock = pygame.time.Clock()
 
@@ -15,17 +15,12 @@ FONT_PATH = "assets/fonts/arcade_font.ttf"
 font_style = pygame.font.Font(FONT_PATH, 25)
 score_font = pygame.font.Font(FONT_PATH, 35)
 
-def display_score(score):
-    value = score_font.render(f"Score: {score}", True, WHITE)
-    # Place the score inside the playable area
-    screen.blit(value, (PLAYABLE_X_OFFSET + 10, PLAYABLE_Y_OFFSET - 40))
-
-def message(text, color, position):
-    msg = font_style.render(text, True, color)
-    screen.blit(msg, position)
+def draw_background():
+    # Draw the background of the playable area
+    pygame.draw.rect(screen, BLACK, (PLAYABLE_X_OFFSET, PLAYABLE_Y_OFFSET, PLAYABLE_WIDTH, PLAYABLE_HEIGHT))
 
 def draw_borders():
-    pygame.draw.rect(screen, YELLOW, (PLAYABLE_X_OFFSET, PLAYABLE_Y_OFFSET, PLAYABLE_WIDTH, PLAYABLE_HEIGHT), 5)  # Border thickness is 5
+    pygame.draw.rect(screen, YELLOW, (PLAYABLE_X_OFFSET, PLAYABLE_Y_OFFSET, PLAYABLE_WIDTH, PLAYABLE_HEIGHT), 5)
 
 def start_screen():
     screen.fill(BLACK)
@@ -49,24 +44,32 @@ def game_loop():
 
     snake = Snake()
     food = Food()
+    high_score = get_high_score()
 
     while not game_over:
         while game_close:
             screen.fill(BLACK)
             message("You Lost! Press Q-Quit or C-Play Again", RED, (SCREEN_WIDTH / 6, SCREEN_HEIGHT / 3))
-            display_score(len(snake.body) - 1)
+            display_score(len(snake.body) - 1, high_score)
             pygame.display.update()
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
+                        current_score = len(snake.body) - 1
+                        update_high_score(current_score)  # Update high score
                         game_over = True
                         game_close = False
                     if event.key == pygame.K_c:
+                        current_score = len(snake.body) - 1
+                        update_high_score(current_score)  # Update before restarting
                         game_loop()
 
+        # Main game logic
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                current_score = len(snake.body) - 1
+                update_high_score(current_score)  # Update high score
                 game_over = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
@@ -80,19 +83,14 @@ def game_loop():
 
         snake.move()
 
-        # Check for collisions with walls
+        # Check collisions
         head = snake.body[0]
         if (
-            head[0] == PLAYABLE_X_OFFSET or 
+            head[0] == PLAYABLE_X_OFFSET or
             head[0] == PLAYABLE_X_OFFSET + PLAYABLE_WIDTH - BLOCK_SIZE or
-            head[1] == PLAYABLE_Y_OFFSET or 
+            head[1] == PLAYABLE_Y_OFFSET or
             head[1] == PLAYABLE_Y_OFFSET + PLAYABLE_HEIGHT - BLOCK_SIZE
         ):
-            game_close = True
-
-
-        # Check for collisions with itself
-        if head in snake.body[1:]:
             game_close = True
 
         # Check if snake eats food
@@ -100,15 +98,21 @@ def game_loop():
             snake.eat_food()
             food.relocate()
 
+        # Update screen
         screen.fill(BLUE)
+        draw_background()
         draw_borders()
         snake.draw(screen, GREEN)
         food.draw(screen, RED)
-        display_score(len(snake.body) - 1)
-        pygame.display.update()
+        current_score = len(snake.body) - 1
+        if current_score > high_score:
+            high_score = current_score
+        display_score(current_score, high_score)
 
+        pygame.display.update()
         clock.tick(SNAKE_SPEED)
 
+    update_high_score(len(snake.body) - 1)  # Ensure high score is saved before quitting
     pygame.quit()
     sys.exit()
 

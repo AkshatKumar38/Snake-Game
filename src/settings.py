@@ -1,4 +1,5 @@
 # Game settings and constants
+import pygame
 
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
@@ -21,4 +22,5 @@ GREEN = (0, 255, 0)
 BLUE = (50, 153, 213)
 YELLOW = (255, 255, 0)
 
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 FONT_PATH = "assets/fonts/arcade_font.ttf"
