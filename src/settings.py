@@ -1,9 +1,17 @@
-#Game Settings and Constants
+# Game settings and constants
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1080
 BLOCK_SIZE = 20
 SNAKE_SPEED = 15
+
+# Playable area dimensions
+PLAYABLE_WIDTH = 800
+PLAYABLE_HEIGHT = 600
+
+# Centered playable area position
+PLAYABLE_X_OFFSET = (SCREEN_WIDTH - PLAYABLE_WIDTH) // 2
+PLAYABLE_Y_OFFSET = (SCREEN_HEIGHT - PLAYABLE_HEIGHT) // 2
 
 #Colours
 WHITE = (255, 255, 255)
@@ -11,4 +19,6 @@ BLACK = (0, 0, 0)
 RED = (213, 50, 80)
 GREEN = (0, 255, 0)
 BLUE = (50, 153, 213)
+YELLOW = (255, 255, 0)
 
+FONT_PATH = "assets/fonts/arcade_font.ttf"
