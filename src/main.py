@@ -83,13 +83,13 @@ def game_loop():
 
         snake.move()
 
-        # Check collisions
+        # Check collisions with walls
         head = snake.body[0]
         if (
-            head[0] == PLAYABLE_X_OFFSET or
-            head[0] == PLAYABLE_X_OFFSET + PLAYABLE_WIDTH - BLOCK_SIZE or
-            head[1] == PLAYABLE_Y_OFFSET or
-            head[1] == PLAYABLE_Y_OFFSET + PLAYABLE_HEIGHT - BLOCK_SIZE
+            head[0] < PLAYABLE_X_OFFSET or
+            head[0] >= PLAYABLE_X_OFFSET + PLAYABLE_WIDTH or
+            head[1] < PLAYABLE_Y_OFFSET or
+            head[1] >= PLAYABLE_Y_OFFSET + PLAYABLE_HEIGHT
         ):
             game_close = True
 
