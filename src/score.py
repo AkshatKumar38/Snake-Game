@@ -44,23 +44,4 @@ def display_score(score, high_score):
 def message(text, color, position):
     msg = font_style.render(text, True, color)
     screen.blit(msg, position)
-       
-def display_stats(screen, episode, reward, epsilon, alpha, gamma, avg_q_value):
-    # Set position for displaying stats on the left side of the screen
-    x_offset = PLAYABLE_X_OFFSET + PLAYABLE_WIDTH + 20
-    y_offset = PLAYABLE_Y_OFFSET + 20
-
-    # Prepare the stats to display
-    stats = [
-        f"Episode: {episode}",
-        f"Reward: {reward}",
-        f"Epsilon: {epsilon:.2f}",
-        f"Alpha: {alpha:.2f}",
-        f"Gamma: {gamma:.2f}",
-        f"Avg Q-value: {avg_q_value:.2f}"
-    ]
-    font = pygame.font.SysFont('Arial', 24)  # Set font and size    
-    # Render each line of stats
-    for i, stat in enumerate(stats):
-        text_surface = font.render(stat, True, (255, 255, 255))  # White color for text
-        screen.blit(text_surface, (x_offset, y_offset + i * 30))
+    
