@@ -1,5 +1,4 @@
 # Food class to manage the food behavior
-
 import pygame
 import random
 from settings import *

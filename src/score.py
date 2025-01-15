@@ -1,9 +1,16 @@
-import os
+import os, pygame
 from settings import *
 from main import font_style, score_font
 
 # High Score File Path
 HIGH_SCORE_FILE = "highscore.txt"
+
+# Draw the background of the playable area
+def draw_background():
+    pygame.draw.rect(screen, BLACK, (PLAYABLE_X_OFFSET, PLAYABLE_Y_OFFSET, PLAYABLE_WIDTH, PLAYABLE_HEIGHT))
+
+def draw_borders():
+    pygame.draw.rect(screen, YELLOW, (PLAYABLE_X_OFFSET, PLAYABLE_Y_OFFSET, PLAYABLE_WIDTH, PLAYABLE_HEIGHT), 5)
 
 def get_high_score():
     try:
@@ -37,3 +44,23 @@ def display_score(score, high_score):
 def message(text, color, position):
     msg = font_style.render(text, True, color)
     screen.blit(msg, position)
+       
+def display_stats(screen, episode, reward, epsilon, alpha, gamma, avg_q_value):
+    # Set position for displaying stats on the left side of the screen
+    x_offset = PLAYABLE_X_OFFSET + PLAYABLE_WIDTH + 20
+    y_offset = PLAYABLE_Y_OFFSET + 20
+
+    # Prepare the stats to display
+    stats = [
+        f"Episode: {episode}",
+        f"Reward: {reward}",
+        f"Epsilon: {epsilon:.2f}",
+        f"Alpha: {alpha:.2f}",
+        f"Gamma: {gamma:.2f}",
+        f"Avg Q-value: {avg_q_value:.2f}"
+    ]
+    font = pygame.font.SysFont('Arial', 24)  # Set font and size    
+    # Render each line of stats
+    for i, stat in enumerate(stats):
+        text_surface = font.render(stat, True, (255, 255, 255))  # White color for text
+        screen.blit(text_surface, (x_offset, y_offset + i * 30))

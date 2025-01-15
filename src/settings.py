@@ -4,7 +4,7 @@ import pygame
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
 BLOCK_SIZE = 20
-SNAKE_SPEED = 15
+SNAKE_SPEED = 50
 
 # Playable area dimensions
 PLAYABLE_WIDTH = 800
