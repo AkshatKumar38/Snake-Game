@@ -3,7 +3,7 @@ from settings import *
 
 class Snake:
     def __init__(self):
-        self.body = [[PLAYABLE_X_OFFSET + 400, PLAYABLE_Y_OFFSET + 300]]  # Initial position
+        self.body = [[400 + PLAYABLE_X_OFFSET, PLAYABLE_Y_OFFSET + 300]]  # Initial position
         self.direction = "RIGHT"
         self.grow = False
 
